@@ -30,13 +30,7 @@ const QRScannerV1: React.FC<{ onScan: (data: string) => void }> = ({
       video.addEventListener("play", () => {
         const codeReader = new BrowserQRCodeReader();
         const scan = async () => {
-            if (video && !video.paused && !video.ended) {
-                // Video is already playing
-                video.play();
-                // return;
-              } else {
-                video.play();
-              }
+          if (!video) return;
           try {
             const result = await codeReader.decodeOnceFromVideoElement(video);
             // Handle the decoded content as needed
