@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Product } from "../../model/Product";
@@ -13,18 +13,24 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleAddToCart = (item: Product) => {
-    const cartItemData: CartData = {
-      id: item.id, // Set an appropriate ID
-      name: item.name,
-      imgurl: item.image_url,
-      price: item.price,
-      quantity: 1, // Assuming you start with a quantity of 1
-      maxQty: item.quantity,
-    };
-    dispatch(addToCart(cartItemData));
-    router.push("/cart");
+    if (item.id) {
+      setIsLoading(false);
+      const cartItemData: CartData = {
+        id: item.id, // Set an appropriate ID
+        name: item.name,
+        imgurl: item.image_url,
+        price: item.price,
+        quantity: 1, // Assuming you start with a quantity of 1
+        maxQty: item.quantity,
+      };
+      dispatch(addToCart(cartItemData));
+      router.push("/cart");
+    } else {
+      setIsLoading(true);
+    }
   };
 
   return (
@@ -81,6 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <button
               className="text-indigo-500 font-bold border-2 py-2 px-6 focus:outline-none hover:text-indigo-600  rounded-lg ml-4"
               onClick={() => router.push("/")}
+              disabled={isLoading}
             >
               Add Another
             </button>
