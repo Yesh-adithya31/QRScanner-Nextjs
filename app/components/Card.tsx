@@ -74,6 +74,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <button
               className="bg-indigo-700 text-white font-bold px-7 py-2 rounded-lg"
               onClick={() => handleAddToCart(product)}
+              disabled={product.id ? false : true}
             >
               Add to Cart
             </button>
