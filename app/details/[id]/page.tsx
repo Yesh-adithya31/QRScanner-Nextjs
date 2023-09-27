@@ -10,25 +10,21 @@ import {
   fetchProductSuccess,
   fetchProductFailure,
 } from "../../../redux/productSlice";
+import { usePathname, useRouter } from "next/navigation";
 
 const Page: React.FC = () => {
-  const [id, setID] = useState("");
+  const router = useRouter();
+  const pathname = usePathname().split("/");
   const dispatch = useDispatch();
   const product = useSelector((state: RootState) => state.product.product);
   const loading = useSelector((state: RootState) => state.product.loading);
   const error = useSelector((state: RootState) => state.product.error);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const currentPath = window.location.pathname.split("/");
-      setID(currentPath[2]);
-      // setID('1');
-      console.log(currentPath[2])
-    }
-    if (id) {
+    if (typeof pathname !== "undefined" || pathname !== null) {
       dispatch(fetchProductStart());
 
-      fetch(`/codemap/${id}`)
+      fetch(`/codemap/${pathname[2]}`)
         .then((response) => response.json())
         .then((data) => {
           dispatch(fetchProductSuccess(data[0]));
@@ -36,8 +32,10 @@ const Page: React.FC = () => {
         .catch((error) => {
           dispatch(fetchProductFailure(error));
         });
+    } else {
+      router.push("/");
     }
-  }, [id, dispatch]);
+  }, [dispatch]);
 
   return (
     <div className="flex flex-wrap h-screen md:hidden">

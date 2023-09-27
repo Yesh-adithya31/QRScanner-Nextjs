@@ -30,13 +30,13 @@ const QRScannerV1: React.FC<{ onScan: (data: string) => void }> = ({
       video.addEventListener("play", () => {
         const codeReader = new BrowserQRCodeReader();
         const scan = async () => {
-          if (!video) return;
+            if (!video) return;
           try {
             const result = await codeReader.decodeOnceFromVideoElement(video);
             // Handle the decoded content as needed
             if (result) {
-              console.log("QR Code Content:", result.getText());
-              onScan(result.getText()); // Pass the scanned data to a callback
+              // console.log("QR Code Content:", result.getText());
+              onScan(result.getText().split("/")[4]); // Pass the scanned data to a callback
             }
           } catch (error) {
             // Handle decoding errors
