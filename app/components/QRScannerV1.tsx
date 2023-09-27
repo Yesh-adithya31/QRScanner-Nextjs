@@ -12,6 +12,8 @@ const QRScannerV1: React.FC<{ onScan: (data: string) => void }> = ({
       audio: false,
     };
 
+    let codeReader: BrowserQRCodeReader | null = null; // Declare codeReader variable
+
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((stream) => {
@@ -23,34 +25,31 @@ const QRScannerV1: React.FC<{ onScan: (data: string) => void }> = ({
         console.error("Error accessing camera:", error);
       });
 
-    const scanQRCode = () => {
-      const video = videoRef.current;
-      if (!video) return;
+    if (!codeReader) {
+      codeReader = new BrowserQRCodeReader(); // Initialize codeReader if it's not already initialized
+    }
 
-      video.addEventListener("play", () => {
-        const codeReader = new BrowserQRCodeReader();
-        const scan = async () => {
-            if (!video) return;
-          try {
-            const result = await codeReader.decodeOnceFromVideoElement(video);
-            // Handle the decoded content as needed
-            if (result) {
-              // console.log("QR Code Content:", result.getText());
-              onScan(result.getText().split("/")[4]); // Pass the scanned data to a callback
-            }
-          } catch (error) {
-            // Handle decoding errors
-            console.error("QR Code Decoding Error:", error);
-          }
+    const scan = async () => {
+      if (!videoRef.current || !codeReader) return;
 
-          requestAnimationFrame(scan);
-        };
+      try {
+        const result = await codeReader.decodeOnceFromVideoElement(videoRef.current);
+        // Handle the decoded content as needed
+        if (result) {
+          onScan(result.getText().split("/")[4]); // Pass the scanned data to a callback
+        }
+      } catch (error) {
+        // Handle decoding errors
+        console.error("QR Code Decoding Error:", error);
+      }
 
-        requestAnimationFrame(scan);
-      });
+      requestAnimationFrame(scan);
     };
 
-    scanQRCode();
+    requestAnimationFrame(scan);
+
+    return () => {
+    };
   }, [onScan]); // Include onScan in the dependencies to prevent stale closures
 
   return (
