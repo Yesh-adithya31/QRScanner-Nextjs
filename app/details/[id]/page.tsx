@@ -10,21 +10,20 @@ import {
   fetchProductSuccess,
   fetchProductFailure,
 } from "../../../redux/productSlice";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+
 
 const Page: React.FC = () => {
-  const router = useRouter();
-  const pathname = usePathname().split("/");
+  const params = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state: RootState) => state.product.product);
   const loading = useSelector((state: RootState) => state.product.loading);
   const error = useSelector((state: RootState) => state.product.error);
 
   useEffect(() => {
-    if (typeof pathname !== "undefined" || pathname !== null) {
       dispatch(fetchProductStart());
 
-      fetch(`/codemap/${pathname[2]}`)
+      fetch(`/codemap/${params["id"]}`)
         .then((response) => response.json())
         .then((data) => {
           dispatch(fetchProductSuccess(data[0]));
@@ -32,9 +31,6 @@ const Page: React.FC = () => {
         .catch((error) => {
           dispatch(fetchProductFailure(error));
         });
-    } else {
-      router.push("/");
-    }
   }, [dispatch]);
 
   return (
