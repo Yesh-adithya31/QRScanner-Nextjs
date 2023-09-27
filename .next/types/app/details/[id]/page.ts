@@ -1,8 +1,8 @@
 // File: E:\TeamX\Next.js\clothshop\app\details\[id]\page.tsx
-import * as entry from '../../../../../app/details/[id]/page.js'
+import * as entry from '../../../../../app/details/[id]/page.jsx'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../../app/details/[id]/page.js')
+type TEntry = typeof import('../../../../../app/details/[id]/page.jsx')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{
