@@ -9,6 +9,8 @@ const Page: React.FC = () => {
   const handleScan = (data: string) => {
     if (data) {
       router.push(`/details/${data.split("/")[4]}`);
+    }else{
+      router.push('/');
     }
   };
   return (
