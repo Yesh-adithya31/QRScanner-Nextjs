@@ -23,6 +23,7 @@ const Page: React.FC = () => {
       const currentPath = window.location.pathname.split("/");
       setID(currentPath[2]);
       // setID('1');
+      console.log(currentPath[2])
     }
     if (id) {
       dispatch(fetchProductStart());
