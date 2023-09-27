@@ -14,16 +14,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleAddToCart = (item: Product) => {
-    const cartItemData: CartData = {
-      id: item.id, // Set an appropriate ID
-      name: item.name,
-      imgurl: item.image_url,
-      price: item.price,
-      quantity: 1, // Assuming you start with a quantity of 1
-      maxQty: item.quantity,
-    };
-    dispatch(addToCart(cartItemData));
+  const handleAddToCart = (item: CartData) => {
+    dispatch(addToCart(item));
     router.push("/cart");
   };
 
@@ -73,8 +65,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="flex justify-center">
             <button
               className="bg-indigo-700 text-white font-bold px-7 py-2 rounded-lg"
-              onClick={() => handleAddToCart(product)}
-              disabled={product.id === undefined || product.quantity === 0 ? true : false}
+              onClick={() =>
+                handleAddToCart({
+                  id: product.id, // Set an appropriate ID
+                  name: product.name,
+                  imgurl: product.image_url,
+                  price: product.price,
+                  quantity: 1, // Assuming you start with a quantity of 1
+                  maxQty: product.quantity,
+                })
+              }
+              disabled={
+                product.id === undefined || product.quantity === 0
+                  ? true
+                  : false
+              }
             >
               Add to Cart
             </button>

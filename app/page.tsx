@@ -7,7 +7,7 @@ const Page: React.FC = () => {
   const router = useRouter();
   const handleScan = (data: string) => {
     if (data) {
-      router.push(`/details/${data}/`);
+      router.push(`/details/${data}`);
     } else {
       router.push("/");
     }
