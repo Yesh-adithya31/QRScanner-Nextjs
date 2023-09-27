@@ -63,7 +63,7 @@ const Page: React.FC = () => {
       ) : product ? (
         !product.product ? (
           <>
-            <div className="p-4 md:w-1/2 lg:w-1/3 bg-white md:hidden">
+            <div className="p-4 w-full bg-white md:hidden">
               <div className="h-full  overflow-hidden justify-center">
                 <div className="p-4 md:p-6">
                   <p className="text-white bg-red-400 text-xl p-4 rounded-md">
@@ -78,11 +78,11 @@ const Page: React.FC = () => {
         )
       ) : (
         <>
-          <div className="p-4 md:w-1/2 lg:w-1/3 bg-white md:hidden">
+          <div className="p-4 w-full bg-white md:hidden">
             <div className="h-full  overflow-hidden justify-center">
               <div className="p-4 md:p-6">
                 <p className="text-white bg-red-400 text-xl p-4 rounded-md">
-                  No product data available."
+                "No products available at the moment."
                 </p>
               </div>
             </div>
