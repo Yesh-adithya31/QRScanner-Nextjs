@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Product } from "../../model/Product";
@@ -13,24 +13,18 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleAddToCart = (item: Product) => {
-    if (item.id) {
-      setIsLoading(false);
-      const cartItemData: CartData = {
-        id: item.id, // Set an appropriate ID
-        name: item.name,
-        imgurl: item.image_url,
-        price: item.price,
-        quantity: 1, // Assuming you start with a quantity of 1
-        maxQty: item.quantity,
-      };
-      dispatch(addToCart(cartItemData));
-      router.push("/cart");
-    } else {
-      setIsLoading(true);
-    }
+    const cartItemData: CartData = {
+      id: item.id, // Set an appropriate ID
+      name: item.name,
+      imgurl: item.image_url,
+      price: item.price,
+      quantity: 1, // Assuming you start with a quantity of 1
+      maxQty: item.quantity,
+    };
+    dispatch(addToCart(cartItemData));
+    router.push("/cart");
   };
 
   return (
